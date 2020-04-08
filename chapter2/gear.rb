@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Gear
-  attr_reader :chainring, :cog, :rim, :tire
+  attr_reader :chainring, :cog, :wheel
 
   def initialize(chainring, cog, rim, tire)
     @chainring = chainring
     @cog = cog
     @rim = rim
-    @tire = tire
+    @wheel = Wheel.new(rim, tire)
   end
 
   def ratio
@@ -15,6 +15,12 @@ class Gear
   end
 
   def gear_inches
-    ratio * (rim + (tire * 2))
+    ratio * wheel.diameter
+  end
+
+  Wheel = Struct.new(:rim, :tire) do
+    def diameter
+      rim + (tire * 2)
+    end
   end
 end
